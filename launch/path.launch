@@ -1,0 +1,3 @@
+<launch>
+   <node pkg="pathplanning" type="a_star_ros1.py" name="astar_rob1" output="screen"/>
+</launch>
