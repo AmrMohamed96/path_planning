@@ -5,6 +5,7 @@ from std_msgs.msg import Int32MultiArray, Int32, Byte, String
 import numpy as np
 import math
 from heapq import heappush, heappop
+
 # static parameter
 robot_num = 2
 calc_flag = 0
@@ -361,10 +362,10 @@ if __name__ == '__main__':
 	rospy.Subscriber('robot_to_be_moved', Int32, start_routine_callback)
 
 	# initialize path publisher
-	pathPublisher = rospy.Publisher('Planning_Output1', Int32MultiArray, queue_size=5)
+	pathPublisher = rospy.Publisher('Planning_Output2', Int32MultiArray, queue_size=5)
 
 	# current map publisher
-	currentMap = rospy.Publisher('current_map_rob1', Int32MultiArray, queue_size=1)
+	currentMap = rospy.Publisher('current_map_rob2', Int32MultiArray, queue_size=1)
 
 	# wait time to make sure that all connections are made
 	rospy.sleep(5)
