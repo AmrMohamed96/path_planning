@@ -36,7 +36,7 @@ obstacles_positions = [ [0,0], [0,0], [0,0], [0,0], [0,0] ]
 obst_pos_cm = [ [0,0], [0,0], [0,0], [0,0], [0,0]]
 
 # extra blocks for robots
-redundant_blocks = 0
+redundant_blocks = 1
 red_dir = 8
 red_x = [redundant_blocks, redundant_blocks, 0, -redundant_blocks, -redundant_blocks, -redundant_blocks, 0, redundant_blocks]
 red_y = [0, redundant_blocks, redundant_blocks, redundant_blocks, 0, -redundant_blocks, -redundant_blocks, -redundant_blocks]
@@ -66,20 +66,20 @@ def check_validity():
 	# check that all positions are within the grid boundaries
 	# check that it is not on the reference
 	if not ( (robot_position[0] == 0 and robot_position[1] == 0 ) ):
-		if not ( ( 0 <= robot_position[0] <= m-1 ) and ( 0 <= robot_position[1] <= n-1) ):
+		if not ( ( 0 <= robot_position[0] <= m ) and ( 0 <= robot_position[1] <= n) ):
 			print ("Robot position is not within the grid")
 			return 0
 
 		for i in range ( len(obstacles_positions) ):
-			if not ( ( obstacles_positions[i][0] == 0 and obstacles_positions[i][1] == 0 ) ):
-				if not ( ( 0 < obstacles_positions[i][0] <= m-1 ) and ( 0 < obstacles_positions[i][1] <= n-1) ):
+			if not ( ( obstacles_positions[i][0] == 0 )and (obstacles_positions[i][1] == 0 ) ):
+				if not ( ( 0 < obstacles_positions[i][0] <= m ) and ( 0 < obstacles_positions[i][1] <= n) ):
 					print "Some positions are not within the grid"
 					return 0
 			else:
 				print "Obstacle is on reference"
 				return 0
 
-		if not ( ( 0 <= goal_position[0] <= m-1) and ( 0 <= goal_position[1] <= n-1) ):
+		if not ( ( 0 <= goal_position[0] <= m) and ( 0 <= goal_position[1] <= n) ):
 			print "Goal is not within the map"
 			return 0
 		# returns 1 if successful
@@ -290,6 +290,10 @@ def path_planning_routine():
 		
 		print "Path is: \n", path_squares, "\n"
 		print "Final Map is: \n", the_map, "\n"
+		publisher_path = np.array(path_squares).flatten().tolist()
+		if ( len(publisher_path) <= 0):
+			publisher_path = robot_position
+		pathPublisher.publish(Int32MultiArray(data=publisher_path))
 		return path_squares
 	else:
 		print "Map is invalid. No Planning will occur"
@@ -303,13 +307,13 @@ def robot_position_callback(data):
 
 def obst1_position_callback(data):
 	global obst_pos_cm
-	obst_pos_cm[0][0] = data.data[0]
-	obst_pos_cm[0][1] = data.data[1]
+	obst_pos_cm[0][0] = data.data[0] * 17.5
+	obst_pos_cm[0][1] = data.data[1] * 17.5
 
 def obst2_position_callback(data):
 	global obst_pos_cm
-	obst_pos_cm[1][0] = data.data[0]
-	obst_pos_cm[1][1] = data.data[1]
+	obst_pos_cm[1][0] = data.data[0] * 17.5
+	obst_pos_cm[1][1] = data.data[1] * 17.5
 
 def obst3_position_callback(data):
 	global obst_pos_cm
