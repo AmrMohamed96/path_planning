@@ -6,7 +6,7 @@ import numpy as np
 import math
 from heapq import heappush, heappop
 # static parameter
-robot_num = 0
+robot_num = 1
 calc_flag = 0
 
 # robot position list (start postition)
@@ -349,7 +349,6 @@ if __name__ == '__main__':
 	m = rospy.get_param('/grid_blocks')
 	n = rospy.get_param('/grid_blocks')
 	square_size = rospy.get_param('/grid_dimension')
-	robot_num = rospy.get_param('/robot_id')
 
 	# initialize position subscribers
 	# robot current position = start point

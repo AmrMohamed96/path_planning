@@ -6,7 +6,7 @@ import numpy as np
 import math
 from heapq import heappush, heappop
 # static parameter
-robot_num = 0
+robot_num = 3
 calc_flag = 0
 
 # robot position list (start postition)
@@ -342,14 +342,13 @@ def start_routine_callback(data):
 
 if __name__ == '__main__':
 	# initializing the ros node
-	rospy.init_node('path_planning_rob1')
+	rospy.init_node('path_planning_rob3')
 	rospy.loginfo('%s started' % rospy.get_name())
 
 	# fetch grid parameters from the global ros parameters
 	m = rospy.get_param('/grid_blocks')
 	n = rospy.get_param('/grid_blocks')
 	square_size = rospy.get_param('/grid_dimension')
-	robot_num = rospy.get_param('/robot_id')
 
 	# initialize position subscribers
 	# robot current position = start point
