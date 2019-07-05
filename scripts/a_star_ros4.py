@@ -6,7 +6,7 @@ import numpy as np
 import math
 from heapq import heappush, heappop
 # static parameter
-robot_num = 4
+robot_num = 0
 calc_flag = 0
 
 # robot position list (start postition)
@@ -17,9 +17,9 @@ robot_pos_cm = [0, 0]
 goal_position = [0,0]
 
 # map dimenstions
-m = 10
-n = 10
-square_size = 17.5
+m = 0
+n = 0
+square_size = 0
 
 # map list
 the_map = []
@@ -35,7 +35,7 @@ obstacles_positions = [ [0,0], [0,0], [0,0], [0,0], [0,0] ]
 obst_pos_cm = [ [0,0], [0,0], [0,0], [0,0], [0,0]]
 
 # extra blocks for robots
-redundant_blocks = 1
+redundant_blocks = 0
 red_dir = 8
 red_x = [redundant_blocks, redundant_blocks, 0, -redundant_blocks, -redundant_blocks, -redundant_blocks, 0, redundant_blocks]
 red_y = [0, redundant_blocks, redundant_blocks, redundant_blocks, 0, -redundant_blocks, -redundant_blocks, -redundant_blocks]
@@ -306,13 +306,13 @@ def robot_position_callback(data):
 
 def obst1_position_callback(data):
 	global obst_pos_cm
-	obst_pos_cm[0][0] = data.data[0] * 17.5
-	obst_pos_cm[0][1] = data.data[1] * 17.5
+	obst_pos_cm[0][0] = data.data[0] * square_size
+	obst_pos_cm[0][1] = data.data[1] * square_size
 
 def obst2_position_callback(data):
 	global obst_pos_cm
-	obst_pos_cm[1][0] = data.data[0] * 17.5
-	obst_pos_cm[1][1] = data.data[1] * 17.5
+	obst_pos_cm[1][0] = data.data[0] * square_size
+	obst_pos_cm[1][1] = data.data[1] * square_size
 
 def obst3_position_callback(data):
 	global obst_pos_cm
@@ -342,8 +342,14 @@ def start_routine_callback(data):
 
 if __name__ == '__main__':
 	# initializing the ros node
-	rospy.init_node('path_planning_rob4')
+	rospy.init_node('path_planning_rob1')
 	rospy.loginfo('%s started' % rospy.get_name())
+
+	# fetch grid parameters from the global ros parameters
+	m = rospy.get_param('/grid_blocks')
+	n = rospy.get_param('/grid_blocks')
+	square_size = rospy.get_param('/grid_dimension')
+	robot_num = rospy.get_param('/robot_id')
 
 	# initialize position subscribers
 	# robot current position = start point
@@ -365,13 +371,15 @@ if __name__ == '__main__':
 	rospy.Subscriber('robot_to_be_moved', Int32, start_routine_callback)
 
 	# initialize path publisher
-	pathPublisher = rospy.Publisher('Planning_Output4', Int32MultiArray, queue_size=5)
+	pathPublisher = rospy.Publisher('Planning_Output1', Int32MultiArray, queue_size=5)
 
 	# current map publisher
-	currentMap = rospy.Publisher('current_map_rob4', Int32MultiArray, queue_size=1)
+	currentMap = rospy.Publisher('current_map_rob1', Int32MultiArray, queue_size=1)
 
 	# wait time to make sure that all connections are made
 	rospy.sleep(5)
 
 	while not rospy.is_shutdown():
+
 		rospy.spin()
+		
