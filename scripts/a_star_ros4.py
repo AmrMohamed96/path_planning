@@ -71,7 +71,7 @@ def check_validity():
 
 		for i in range ( len(obstacles_positions) ):
 			if not ( ( obstacles_positions[i][0] == 0 ) and (obstacles_positions[i][1] == 0 ) ):
-				if not ( ( 0 < obstacles_positions[i][0] <= m ) and ( 0 < obstacles_positions[i][1] <= n) ):
+				if not ( ( 0 <= obstacles_positions[i][0] <= m-1 ) and ( 0 <= obstacles_positions[i][1] <= n-1) ):
 					print "Some positions are not within the grid"
 					return 0
 			else:

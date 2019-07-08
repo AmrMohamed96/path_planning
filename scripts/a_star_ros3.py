@@ -65,20 +65,20 @@ def check_validity():
 	# check that all positions are within the grid boundaries
 	# check that it is not on the reference
 	if not ( (robot_position[0] == 0 and robot_position[1] == 0 ) ):
-		if not ( ( 0 <= robot_position[0] <= m ) and ( 0 <= robot_position[1] <= n) ):
+		if not ( ( 0 <= robot_position[0] <= m-1 ) and ( 0 <= robot_position[1] <= n-1) ):
 			print ("Robot position is not within the grid")
 			return 0
 
 		for i in range ( len(obstacles_positions) ):
 			if not ( ( obstacles_positions[i][0] == 0 ) and (obstacles_positions[i][1] == 0 ) ):
-				if not ( ( 0 < obstacles_positions[i][0] <= m ) and ( 0 < obstacles_positions[i][1] <= n) ):
+				if not ( ( 0 <= obstacles_positions[i][0] <= m-1 ) and ( 0 <= obstacles_positions[i][1] <= n-1) ):
 					print "Some positions are not within the grid"
 					return 0
 			else:
 				print "Obstacle is on reference"
 				return 0
 
-		if not ( ( 0 <= goal_position[0] <= m) and ( 0 <= goal_position[1] <= n) ):
+		if not ( ( 0 <= goal_position[0] <= m-1) and ( 0 <= goal_position[1] <= n-1) ):
 			print "Goal is not within the map"
 			return 0
 		# returns 1 if successful

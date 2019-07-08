@@ -27,7 +27,7 @@ the_map = []
 # representation numbers
 obst_rep = 1
 rob_rep = 2
-route_rep = 3   
+route_rep = 3
 finish_rep = 4
 
 # obstacles positions list
@@ -65,20 +65,20 @@ def check_validity():
 	# check that all positions are within the grid boundaries
 	# check that it is not on the reference
 	if not ( (robot_position[0] == 0 and robot_position[1] == 0 ) ):
-		if not ( ( 0 <= robot_position[0] <= m ) and ( 0 <= robot_position[1] <= n) ):
+		if not ( ( 0 <= robot_position[0] <= m-1 ) and ( 0 <= robot_position[1] <= n-1) ):
 			print ("Robot position is not within the grid")
 			return 0
 
 		for i in range ( len(obstacles_positions) ):
 			if not ( ( obstacles_positions[i][0] == 0 ) and (obstacles_positions[i][1] == 0 ) ):
-				if not ( ( 0 < obstacles_positions[i][0] <= m ) and ( 0 < obstacles_positions[i][1] <= n) ):
+				if not ( ( 0 <= obstacles_positions[i][0] <= m-1 ) and ( 0 <= obstacles_positions[i][1] <= n-1) ):
 					print "Some positions are not within the grid"
 					return 0
 			else:
 				print "Obstacle is on reference"
 				return 0
 
-		if not ( ( 0 <= goal_position[0] <= m) and ( 0 <= goal_position[1] <= n) ):
+		if not ( ( 0 <= goal_position[0] <= m-1) and ( 0 <= goal_position[1] <= n-1) ):
 			print "Goal is not within the map"
 			return 0
 		# returns 1 if successful
@@ -286,7 +286,7 @@ def path_planning_routine():
 		route = pathPlanner(the_map,n,m,dirs,dx,dy,robot_position[0], robot_position[1],goal_position[0],goal_position[1])
 		update_map_w_route(route)
 		path_squares = get_path_squares(the_map)
-		
+
 		print "Path is: \n", path_squares, "\n"
 		print "Final Map is: \n", the_map, "\n"
 		publisher_path = np.array(path_squares).flatten().tolist()
@@ -366,7 +366,7 @@ if __name__ == '__main__':
 	# initialize goal subscriber
 	rospy.Subscriber('next_goals_px', Int32MultiArray, goal_point_callback)
 
-	# path planning flag to be polled 
+	# path planning flag to be polled
 	rospy.Subscriber('robot_to_be_moved', Int32, start_routine_callback)
 
 	# initialize path publisher
@@ -381,4 +381,3 @@ if __name__ == '__main__':
 	while not rospy.is_shutdown():
 
 		rospy.spin()
-		
